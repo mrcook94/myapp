@@ -3,17 +3,9 @@ import { View, Text, StyleSheet, Button } from 'react-native'
 import { createStackNavigator, createAppContainer } from "react-navigation"
 import HomeScreen from './src/components/HomeScreen'
 import DetailsScreen from './src/components/DetailsScreen'
+import ScrollViewScreen from './src/components/ScrollViewScreen'
 
 
-
-
-export default class App extends React.Component {
-  render() {
-    return (
-      <AppContainer />
-    )
-  }
-}
 class TestHome extends Component {
   render() {
     return (
@@ -30,6 +22,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     Details: DetailsScreen,
+    Scroll: ScrollViewScreen,
   },
   {
     initialRouteName: 'Home',
@@ -37,3 +30,13 @@ const AppNavigator = createStackNavigator(
 
 )
 const AppContainer = createAppContainer(AppNavigator);
+
+class App extends React.Component {
+  render() {
+    return (
+      <AppContainer />
+    )
+  }
+}
+
+export default App

@@ -1,86 +1,60 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native'
 
+const formattedTime = (sec) =>
+  ('0' + Math.floor(sec / 3600)).slice(-2) +
+  ':' +
+  ('0' + Math.floor(sec / 60)).slice(-2) +
+  ':' +
+  ('0' + sec % 60).slice(-2)
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      buttonStart: 'Start',
-      buttonPause: 'Pause',
       isStart: false,
       isPause: false,
-      secondNumber: 0,
-      minuteNumber: 0,
-      hourNumber: 0,
-    };
-
+      secCount: 0,
+    }
+    this.currentSec = null
     console.log('constructor')
   }
 
-  static getDerivedStateFromProps(props, state) {
-    console.log('getDerivedState ' + 1)
-    return state
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount ' + this.state.secondNumber)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
-  }
-
-  getSnapshotBeforeUpdate() {
-    console.log('getSnapshot... ' + this.state.secondNumber)
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate ' + this.state.secondNumber)
-    if (this.state.secondNumber !== 0) {
-      if (this.state.secondNumber % 60 === 0) {
-        this.setState(state => (
-          {
-            secondNumber: 0,
-            minuteNumber: state.minuteNumber + 1,
-          }
-        ))
-      }
-    }
-    if (this.state.minuteNumber !== 0) {
-      if (this.state.minuteNumber % 60 === 0) {
-        this.setState(state => (
-          {
-            minuteNumber: 0,
-            hourNumber: state.minuteNumber + 1,
-          }
-        ))
-      }
-    }
-  }
-
-  _onPressStart() {
-    // Toggle the state every second
-    if (this.state.isStart === true) {
+  handleStartBtn() {
+    this.setState({
+      isStart: true
+    })
+    this.currentSec = setInterval(() =>
       this.setState({
-        buttonStart: 'Start',
-        isStart: false
+        secCount: this.state.secCount + 1
       })
-    } else {
-      this.setState({
-        buttonStart: 'Stop',
-        isStart: true
-      })
-    }
+      , 1000);
   }
 
-  timeRunning() {
-    setInterval(() => (
-      this.setState(previousState => (
-        {
-          secondNumber: previousState.secondNumber + 1,
-        }
-      ))
-    ), 1000);
+  handleStopBtn() {
+    this.setState({
+      isStart: false,
+      secCount: 0
+    })
+    clearInterval(this.currentSec)
+  }
+
+  handlePauseBtn() {
+    this.setState({
+      isPause: true,
+    })
+    clearInterval(this.currentSec)
+  }
+
+  handleResumeBtn() {
+    this.setState({
+      isPause: false
+    })
+    this.currentSec = setInterval(() =>
+      this.setState({
+        secCount: this.state.secCount + 1
+      })
+      , 1000);
   }
 
   render() {
@@ -90,18 +64,33 @@ class HomeScreen extends Component {
         <View>
           <Text style={styles.welcome}> Home Screen!!! </Text>
           <Text style={styles.timeView}>
-            {this.state.hourNumber} : {this.state.minuteNumber} : {this.state.secondNumber}
+            {formattedTime(this.state.secCount)}
           </Text>
         </View>
         <View>
           <View style={styles.buttonView}>
-            <Button style={{ marginRight: 5 }}
-              title={this.state.buttonStart}
-              onPress={this._onPressStart.bind(this)}
-            />
-            <Button style={{ marginLeft: 5 }}
-              title={this.state.buttonPause}
-            />
+            {(this.state.isStart === false) ?
+              <Button style={{ marginRight: 5 }}
+                title='Start'
+                onPress={this.handleStartBtn.bind(this)}
+              /> :
+              <Button style={{ marginRight: 5 }}
+                title='Stop'
+                onPress={this.handleStopBtn.bind(this)}
+              />}
+            {(this.state.secCount === 0) ? null :
+              (this.state.isPause === false) ?
+                <Button
+                  style={{ marginLeft: 5 }}
+                  title='Pause'
+                  onPress={this.handlePauseBtn.bind(this)}
+                /> : <Button
+                  style={{ marginLeft: 5 }}
+                  title='Resume'
+                  onPress={this.handleResumeBtn.bind(this)}
+                />
+            }
+
           </View>
           <Button
             style={styles.buttonStyle}

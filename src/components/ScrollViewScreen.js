@@ -22,3 +22,5 @@ class ScrollViewScreen extends React.Component {
     )
   }
 }
+
+export default ScrollViewScreen

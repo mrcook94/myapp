@@ -1,30 +1,78 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Text,
   View,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native'
+import { CountingUp, CountingDown } from '../actions/counterAction'
 
-export default class ClockScreen extends Component {
+class ClockScreen extends Component {
+
+  handleCountUp() {
+    this.props.dispatch(CountingUp('Tăng'))
+  }
+
+  handleCountDown() {
+    this.props.dispatch(CountingDown('Giảm'))
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.textView}> ClockScreen </Text>
+        <Text style={styles.counters}> {this.props.counter} </Text>
+        <Text style={styles.textStatus}> {this.props.text} </Text>
+        <View
+          style={{
+            flexDirection: 'row'
+          }}
+        >
+          <TouchableOpacity
+            onPress={this.handleCountUp.bind(this)}
+          >
+            <Text style={styles.actions}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.handleCountDown.bind(this)}
+          >
+            <Text style={styles.actions}>-</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
 }
 
-styles = StyleSheet.create(
-  {
-    container: {
-      flex: 1,
-      backgroundColor: 'skyblue',
-      alignItems: 'center'
-    },
-    textView: {
-      fontSize: 20,
-      textAlign: 'center'
-    }
+function mapStatetoProps(state) {
+  return {
+    counter: state.countNumber,
+    text: state.textInput
   }
-)
+}
+export default connect(mapStatetoProps)(ClockScreen)
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  counters: {
+    fontSize: 50,
+    textAlign: 'center',
+    margin: 20,
+  },
+  textStatus: {
+    fontSize: 50,
+    textAlign: 'center',
+    margin: 20,
+    color: 'blue'
+  },
+  actions: {
+    fontSize: 50,
+    textAlign: 'center',
+    margin: 20,
+    color: 'red'
+  }
+})

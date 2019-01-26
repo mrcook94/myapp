@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import {
-  Text,
-  View,
-} from 'react-native'
+
 import ClockScreen from './screens/ClockScreen'
 import CalculatorScreen from './screens/CalculatorScreen'
 import LoadingScreen from './screens/LoadingScreen'
 import LogInScreen from './screens/LogInScreen'
+import PokemonListScreen from './screens/PokemonListScreen'
 
 import {
   StackActions,
@@ -16,11 +14,14 @@ import {
   createStackNavigator,
 } from 'react-navigation'
 
+import { Provider } from 'react-redux'
+import store from './store/index'
 
 const AppTabContainer = createBottomTabNavigator(
   {
     CalculatorTab: CalculatorScreen,
     ClockTab: ClockScreen,
+    PokemonTab: PokemonListScreen,
   }
 )
 
@@ -40,7 +41,9 @@ const AppContainer = createAppContainer(createStackNavigator(
 class App extends React.Component {
   render() {
     return (
-      <AppContainer />
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     )
   }
 }

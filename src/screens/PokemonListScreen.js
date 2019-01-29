@@ -8,32 +8,30 @@ import {
   TouchableOpacity
 } from 'react-native'
 
+import { GetPokemonListAction } from '../actions/pokemonAction'
+
+import { connect } from 'react-redux'
+
 class PokemonListScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      renderdata: [],
+      renderdata: '',
       id: 1,
       nextLink: ''
     }
   }
 
   componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        let i
-        for (i in responseJson.results) {
-          this.setState({
-            renderdata: [...this.state.renderdata, responseJson.results[i]],
-            nextLink: responseJson.next
-          })
-        }
-        console.log(this.state.renderdata)
-        console.log(this.state.nextLink)
-      })
-      .catch((e) => console.log(e))
+    const {
+      isLoading,
+      GetPokemonListAction
+    } = this.props
+    const baseUrl = 'https://pokeapi.co/api/v2/pokemon'
+    console.log('loading' + isLoading)
+    console.log('before get data')
+    console.log(this.props.renderData)
+    GetPokemonListAction(baseUrl)
   }
 
   onNextPage() {
@@ -55,11 +53,10 @@ class PokemonListScreen extends Component {
   }
 
   render() {
+    const { renderData } = this.props
     return (
       <FlatList
-        data={this.state.renderdata}
-        onEndReachedThreshold={0.1}
-        onEndReached={() => this.onNextPage()}
+        data={renderData}
 
         // Data render
         renderItem={({ item }) => (
@@ -104,7 +101,14 @@ class PokemonListScreen extends Component {
   }
 }
 
-export default PokemonListScreen
+function mapStatetoProps(state) {
+  return {
+    isLoading: state.pokemonReducer.isLoading,
+    renderData: state.pokemonReducer.pokemonData,
+  }
+}
+
+export default connect(mapStatetoProps, { GetPokemonListAction })(PokemonListScreen)
 
 const styles = StyleSheet.create({
 

@@ -45,11 +45,11 @@ class ClockScreen extends Component {
 
 function mapStatetoProps(state) {
   return {
-    counter: state.countNumber,
-    text: state.textInput
+    counter: state.counterReducer.countNumber,
+    text: state.counterReducer.textInput
   }
 }
-export default connect(mapStatetoProps)(ClockScreen)
+export default connect(mapStatetoProps, null)(ClockScreen)
 
 const styles = StyleSheet.create({
   container: {

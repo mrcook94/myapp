@@ -10,6 +10,10 @@ import { CountingUp, CountingDown } from '../actions/counterAction'
 
 class ClockScreen extends Component {
 
+  static navigationOptions = {
+    title: 'Counting',
+  }
+
   handleCountUp() {
     this.props.dispatch(CountingUp('Tăng'))
   }

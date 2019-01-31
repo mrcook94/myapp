@@ -13,6 +13,11 @@ import {
 } from 'react-navigation'
 
 export default class CalculatorScreen extends Component {
+
+  static navigationOptions = {
+    title: 'Calculator',
+  };
+
   render() {
     return (
       <View style={styles.container}>

@@ -34,7 +34,8 @@ const AppContainer = createAppContainer(createStackNavigator(
   {
     navigationOptions: {
       headerLeft: null
-    }
+    },
+    headerMode: 'none'
   }
 ))
 

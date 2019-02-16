@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
+import { deletePokemonAction } from '../actions/pokemonAction'
 import { showPokemonModalAction } from '../actions/pokemonModalAction'
 
 import Swipeout from 'react-native-swipeout'
@@ -15,10 +16,17 @@ class PokemonFlatListItem extends Component {
   showPokemon(pokemonUrl) {
     const { showPokemonModalAction } = this.props
     console.log(pokemonUrl)
+    console.log(this.props.index)
     showPokemonModalAction(pokemonUrl)
   }
 
+  deletePokemon(index) {
+    const { deletePokemonAction } = this.props
+    deletePokemonAction(index)
+  }
+
   render() {
+    const { item, index } = this.props
     const swipeSettings = {
       autoClose: true,
       onClose: (sectionID, rowId, direction) => {
@@ -30,7 +38,7 @@ class PokemonFlatListItem extends Component {
       right: [
         {
           onPress: () => {
-
+            this.deletePokemon(index)
           },
           text: 'Delete', type: 'delete'
         },
@@ -41,7 +49,7 @@ class PokemonFlatListItem extends Component {
           text: 'Close'
         }
       ],
-      rowId: this.props.index,
+      rowId: index,
       sectionID: 1,
 
     }
@@ -53,7 +61,7 @@ class PokemonFlatListItem extends Component {
           borderBottomWidth: 0.8,
           backgroundColor: 'white'
         }}
-          onPress={() => this.showPokemon(this.props.item.url)}
+          onPress={() => this.showPokemon(item.url)}
         >
           <Text
             style={{
@@ -65,7 +73,7 @@ class PokemonFlatListItem extends Component {
               style={{
                 color: 'red'
               }}>
-              {'   ' + this.props.item.name}
+              {'   ' + item.name}
             </Text>
           </Text>
           <Text
@@ -85,5 +93,6 @@ class PokemonFlatListItem extends Component {
 }
 
 export default connect(null, {
-  showPokemonModalAction
+  showPokemonModalAction,
+  deletePokemonAction
 })(PokemonFlatListItem)

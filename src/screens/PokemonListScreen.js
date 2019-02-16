@@ -96,21 +96,28 @@ class PokemonListScreen extends Component {
                 <PokemonInfo pokemonTitle={'NAME'} pokemonDetail={pokemonItem.name} />
                 <PokemonInfo pokemonTitle={'HEIGHT'} pokemonDetail={pokemonItem.height} />
                 <PokemonInfo pokemonTitle={'WEIGHT'} pokemonDetail={pokemonItem.weight} />
+                <TouchableHighlight
+                  onPress={() => this.handleCloseModal()}
+                  underlayColor='#CFCFCF'
+                  style={{ marginTop: 50, backgroundColor: '#54FF9F' }}
+                >
+                  <Text style={{
+                    fontSize: 30,
+                    textAlign: 'center',
+                    color: '#8B2500',
+                  }}>
+                    Hide Modal
+                  </Text>
+                </TouchableHighlight>
               </View>) : (
                 <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#0000FF' }}>{modalMessage}</Text>)}
-            <TouchableHighlight
-              onPress={() => this.handleCloseModal()}
-              underlayColor='#99FFCC'
-            >
-              <Text style={{ fontSize: 30, textAlign: 'center', color: '#FF6600' }}>Hide Modal</Text>
-            </TouchableHighlight>
-
           </View>
         </Modal>
 
         {/* Pokemon List  */}
         <FlatList
           data={renderData}
+          keyExtractor={(item) => item.name}
 
           style={{ margin: 10 }}
           //refresh control

@@ -29,7 +29,7 @@ function LoadFailure() {
   }
 }
 
-function deletePokemonAction(index) {
+export function deletePokemonAction(index) {
   return {
     type: actionTypes.DELETE_POKEMON,
     index: index,

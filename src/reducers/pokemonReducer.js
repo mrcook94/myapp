@@ -25,6 +25,13 @@ function pokemonReducer(state = initState, action) {
         ...state,
         isLoading: false
       }
+    case actionTypes.DELETE_POKEMON:
+      return {
+        ...state,
+        pokemonData: [...state.pokemonData.slice(0, action.index),
+        ...state.pokemonData.slice(action.index + 1, state.pokemonData.length)]
+      }
+
     default: return state
   }
 }

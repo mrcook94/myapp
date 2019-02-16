@@ -5,6 +5,7 @@ import CalculatorScreen from './screens/CalculatorScreen'
 import LoadingScreen from './screens/LoadingScreen'
 import LogInScreen from './screens/LogInScreen'
 import PokemonListScreen from './screens/PokemonListScreen'
+import WeatherScreen from './screens/WeatherScreen'
 
 import {
   StackActions,
@@ -21,6 +22,7 @@ const AppTabContainer = createBottomTabNavigator(
   {
     CalculatorTab: CalculatorScreen,
     ClockTab: ClockScreen,
+    WeatherTab: WeatherScreen,
     PokemonTab: PokemonListScreen,
   }
 )

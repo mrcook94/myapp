@@ -4,6 +4,7 @@ import {
   View,
   Button,
   StyleSheet,
+  Picker,
   AsyncStorage,
 } from 'react-native'
 
@@ -21,6 +22,16 @@ export default class CalculatorScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Picker
+          // selectedValue={this.state.language}
+          style={{ height: 50, width: 100 }}
+          // onValueChange={(itemValue, itemIndex) =>
+          //   this.setState({ language: itemValue })
+          // }
+          >
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
         <Text style={styles.textView}> Calculator Screen </Text>
         <Button
           title='Đăng Xuất'
